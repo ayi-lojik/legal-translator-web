@@ -1,1 +1,1 @@
-export const API_BASE_URL = process.env || 'https://9t143bqaxf.execute-api.us-east-1.amazonaws.com';
+export const API_BASE_URL = process.env.API_BASE_URL || 'https://9t143bqaxf.execute-api.us-east-1.amazonaws.com';

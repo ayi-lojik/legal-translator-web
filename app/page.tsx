@@ -6,13 +6,6 @@ import {
 } from 'lucide-react';
 import { ChatInterface } from '@ayilojik/components/chat/ChatInterface';
 
-interface SummaryResult {
-  summary: string;
-  keyPoints: string[];
-  documentType: string;
-  wordCount: number;
-}
-
 export default function LegalDocumentSummarizer() {
 
 

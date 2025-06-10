@@ -1,7 +1,7 @@
 'use client';
 
 import { Message } from '@ayilojik/types/chat';
-import { Copy, Bot, User, Download, FileText, Image, Video, Music, Archive } from 'lucide-react';
+import { Copy, Bot, User, Download, FileText, Image as IMGICON, Video, Music, Archive } from 'lucide-react';
 import { Button } from '@ayilojik/components/ui/button';
 import { useState } from 'react';
 import { formatFileSize } from '@ayilojik/lib/utils';
@@ -22,7 +22,7 @@ export function MessageBubble({ message, isLatest }: MessageBubbleProps) {
   };
 
   const getFileIcon = (type: string) => {
-    if (type.startsWith('image/')) return <Image size={16} />;
+    if (type.startsWith('image/')) return <IMGICON size={16} />;
     if (type.startsWith('video/')) return <Video size={16} />;
     if (type.startsWith('audio/')) return <Music size={16} />;
     if (type.includes('zip') || type.includes('rar')) return <Archive size={16} />;

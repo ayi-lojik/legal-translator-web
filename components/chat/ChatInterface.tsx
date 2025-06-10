@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Message, HandleMessageParams } from '@ayilojik/types/chat';
+import { Message, HandleMessageParams, FileUploadUrl, ApiResponse, GetSummaryParams } from '@ayilojik/types/chat';
 import { MessageBubble } from './MessageBubble';
 import { ChatInput } from './ChatInput';
 import { TypingIndicator } from './TypingIndicator';
@@ -91,7 +91,7 @@ export function ChatInterface() {
     setMessages(prev => [...prev, errorMessage]);
   };
 
-  const getUploadUrl = async (file: File): Promise<any> => {
+  const getUploadUrl = async (file: File): Promise<FileUploadUrl> => {
     const fileHash = await hashString(file.name);
     const fileName = `${fileHash}-${file.name}`;
     return fetch(`${API_BASE_URL}/signurl`, {
@@ -108,15 +108,14 @@ export function ChatInterface() {
         return response.json();
       }
     )
-    .then(({ data: { url } }: any) => {
+    .then(({ data: { url } }: ApiResponse<{ url: string }>) => {
         return {
           url,
           fileName,
         };
       })
-    .catch(error => {
+    .catch(() => {
         throw new Error('Something wrong happened!. Please try again later.');
-        
     });
   };
 
@@ -132,13 +131,13 @@ export function ChatInterface() {
               throw new Error('Failed to upload file');
             }
           }
-    ).catch(error => {
+    ).catch(() => {
       throw new Error('Failed to upload file. Please try again later.');
     }
     );
   }; 
 
-  const getSummary = ({ type, value }: any) => {
+  const getSummary = ({ type, value }: GetSummaryParams) => {
     setIsLoading(true);
     const signal = AbortSignal.timeout(300* 1000); // 5 minutes timeout
     return fetch(`${API_BASE_URL}/`, {
@@ -157,7 +156,7 @@ export function ChatInterface() {
         return response;
       })
       .then(response => response.json())
-      .then(({ data }: any) => {
+      .then(({ data }: ApiResponse<{ summary: string; }>) => {
         const summaryMessage: Message = {
           id: Date.now().toString(),
           content: data.summary,
@@ -194,7 +193,7 @@ export function ChatInterface() {
       await getSummary({ type: 'file', value: uploadedFileName });
   }
 
-  const sendTextContentMessage = async (content: string, isUrl: Boolean) => {
+  const sendTextContentMessage = async (content: string, isUrl: boolean) => {
     const userMessage: Message = {
       id: Date.now().toString(),
       content,

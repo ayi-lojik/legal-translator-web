@@ -20,5 +20,18 @@ export interface ChatState {
 export interface HandleMessageParams {
     content?: string;
     file?: File;
-    isUrl: Boolean;
+    isUrl: boolean;
+}
+
+export interface FileUploadUrl {
+    url: string;
+    fileName: string;
+}
+export interface ApiResponse<T> {
+    data: T;
+}
+
+export interface GetSummaryParams {
+    type: 'file' | 'url' | 'text';
+    value: string;
 }

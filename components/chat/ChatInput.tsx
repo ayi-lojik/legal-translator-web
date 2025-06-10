@@ -20,7 +20,7 @@ export function ChatInput({ onSendMessage, isLoading, onErrorMessage }: ChatInpu
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    let error = validateInput();
+    const error = validateInput();
     if (!error && !isLoading) {
       onSendMessage({ content: input.trim(), file: selectedFile || undefined, isUrl: isUrl(input.trim())});
       setInput('');
@@ -51,10 +51,11 @@ export function ChatInput({ onSendMessage, isLoading, onErrorMessage }: ChatInpu
   
   const isUrl = (url: string) => {
       try {
-            new URL(input);
+            new URL(url);
             return true;
-      } 
+      }
       catch (error) {
+        console.log(error);
         return false;
     }
   }
@@ -65,7 +66,7 @@ export function ChatInput({ onSendMessage, isLoading, onErrorMessage }: ChatInpu
       return 'Please enter a message or attach a file';
     }
 
-    let inputIsUrl = isUrl(input);
+    const inputIsUrl = isUrl(input);
           
     if (!inputIsUrl && !selectedFile) {
       return 'Please enter the document text content or a url to the document';
@@ -77,7 +78,7 @@ export function ChatInput({ onSendMessage, isLoading, onErrorMessage }: ChatInpu
     if (selectedFile) {
       return validateFile(selectedFile);
     }
-    
+
     return '';
   };
 
